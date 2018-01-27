@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import java.util.Set;
 
@@ -18,8 +19,8 @@ public class EncolappController {
   private Salon salon;
 
   @GetMapping("/presentes")
-  public Set<Speaker> presentes() {
-    return salon.obtenerPresentes();
+  public Flux<Speaker> presentes() {
+    return Flux.fromStream(salon.obtenerPresentes().stream());
   }
 
   @PostMapping("/entrar")
