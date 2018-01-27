@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Date: 27/01/18 - 11:08
@@ -17,7 +18,7 @@ public class EncolappController {
   private Salon salon;
 
   @GetMapping("/estado_actual")
-  public Flux<EstadoDeSalon> estadoActual() {
+  public Mono<EstadoDeSalon> estadoActual() {
     return salon.obtenerEstado();
   }
 

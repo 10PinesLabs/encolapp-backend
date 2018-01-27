@@ -1,31 +1,24 @@
 package com.tenpines.encolapp;
 
-import ar.com.kfgodel.nary.api.Nary;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Date: 27/01/18 - 13:16
  */
 public class Salon {
 
-  private Set<Speaker> presentes = Nary.of(
-    Speaker.create("Jorge"),
-    Speaker.create("Dario"),
-    Speaker.create("Gise")
-  ).collect(Collectors.toCollection(LinkedHashSet::new));
+  private Set<Speaker> presentes;
 
-  private Set<Speaker> speakers = Nary.of(
-    Speaker.create("Jorge"),
-    Speaker.create("Dario"),
-    Speaker.create("Gise")
-  ).collect(Collectors.toCollection(LinkedHashSet::new));
+  private Set<Speaker> speakers;
 
   public static Salon create() {
     Salon salon = new Salon();
+    salon.speakers = new CopyOnWriteArraySet<>();
+    salon.presentes = new CopyOnWriteArraySet<>();
     return salon;
   }
 
@@ -54,7 +47,7 @@ public class Salon {
     speakers.remove(speaker);
   }
 
-  public Flux<EstadoDeSalon> obtenerEstado() {
-    return Flux.just(EstadoDeSalon.create(presentes, speakers));
+  public Mono<EstadoDeSalon> obtenerEstado() {
+    return Mono.just(EstadoDeSalon.create(presentes, speakers));
   }
 }
