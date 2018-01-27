@@ -1,6 +1,7 @@
 package com.tenpines.encolapp;
 
 import ar.com.kfgodel.nary.api.Nary;
+import reactor.core.publisher.Flux;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -28,8 +29,8 @@ public class Salon {
     return salon;
   }
 
-  public Set<Speaker> obtenerPresentes() {
-    return presentes;
+  public Flux<Speaker> obtenerPresentes() {
+    return Flux.fromIterable(presentes);
   }
 
   public void ingresar(Speaker speaker) {
@@ -41,8 +42,8 @@ public class Salon {
     speakers.remove(speaker);
   }
 
-  public Set<Speaker> obtenerCola() {
-    return speakers;
+  public Flux<Speaker> obtenerCola() {
+    return Flux.fromIterable(speakers);
   }
 
   public void encolar(Speaker speaker) {
@@ -51,5 +52,9 @@ public class Salon {
 
   public void desencolar(Speaker speaker) {
     speakers.remove(speaker);
+  }
+
+  public Flux<EstadoDeSalon> obtenerEstado() {
+    return Flux.just(EstadoDeSalon.create(presentes, speakers));
   }
 }

@@ -3,11 +3,9 @@ package com.tenpines.encolapp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-
-import java.util.Set;
 
 /**
  * Date: 27/01/18 - 11:08
@@ -18,37 +16,38 @@ public class EncolappController {
   @Autowired
   private Salon salon;
 
+  @GetMapping("/estado_actual")
+  public Flux<EstadoDeSalon> estadoActual() {
+    return salon.obtenerEstado();
+  }
+
   @GetMapping("/presentes")
   public Flux<Speaker> presentes() {
-    return Flux.fromStream(salon.obtenerPresentes().stream());
+    return salon.obtenerPresentes();
   }
 
   @PostMapping("/entrar")
-  public void entrar(@RequestParam String nombreDeSpeaker) {
-    salon.ingresar(obtenerSpeaker(nombreDeSpeaker));
+  public void entrar(@RequestBody Speaker speaker) {
+    salon.ingresar(speaker);
   }
 
   @PostMapping("/salir")
-  public void salir(@RequestParam String nombreDeSpeaker) {
-    salon.salir(obtenerSpeaker(nombreDeSpeaker));
-  }
-
-  private Speaker obtenerSpeaker(@RequestParam String nombreDeSpeaker) {
-    return Speaker.create(nombreDeSpeaker);
+  public void salir(@RequestBody Speaker speaker) {
+    salon.salir(speaker);
   }
 
   @GetMapping("/cola")
-  public Set<Speaker> cola() {
+  public Flux<Speaker> cola() {
     return salon.obtenerCola();
   }
 
   @PostMapping("/encolarse")
-  public void encolarse(@RequestParam String nombreDeSpeaker) {
-    salon.encolar(obtenerSpeaker(nombreDeSpeaker));
+  public void encolarse(@RequestBody Speaker speaker) {
+    salon.encolar(speaker);
   }
 
   @PostMapping("/desencolarse")
-  public void desencolarse(@RequestParam String nombreDeSpeaker) {
-    salon.desencolar(obtenerSpeaker(nombreDeSpeaker));
+  public void desencolarse(@RequestBody Speaker speaker) {
+    salon.desencolar(speaker);
   }
 }
