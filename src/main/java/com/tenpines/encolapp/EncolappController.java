@@ -23,10 +23,7 @@ public class EncolappController {
   public Mono<EstadoDeSalon> estadoActual() {
     Mono<EstadoDeSalon> timeout = Mono
       .delay(Duration.ofSeconds(20))
-      .map((longo) -> {
-        System.out.println(longo);
-        return salon.estadoActual();
-      });
+      .map((longo) -> salon.estadoActual());
     return salon.cambiosDeEstado()
       .mergeWith(timeout)
       .next();
