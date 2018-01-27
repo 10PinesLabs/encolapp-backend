@@ -21,8 +21,12 @@ public class EncolappController {
 
   @GetMapping("/estado_actual")
   public Mono<EstadoDeSalon> estadoActual() {
-    Flux<EstadoDeSalon> timeout = Mono.delay(Duration.ofSeconds(20)).map((longo) -> salon.estadoActual()).flux();
-    return salon.cambiosDeEstado().mergeWith(timeout).next();
+    Mono<EstadoDeSalon> timeout = Mono
+      .delay(Duration.ofSeconds(20))
+      .map((longo) -> salon.estadoActual());
+    return salon.cambiosDeEstado()
+      .mergeWith(timeout)
+      .next();
   }
 
   @GetMapping("/presentes")
