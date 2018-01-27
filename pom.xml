@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tenpines.encolapp</groupId>
+  <artifactId>server</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.9.RELEASE</version>
+  </parent>
+
+  <properties>
+    <java.version>1.8</java.version>
+
+    <version.guava>23.5-jre</version.guava>
+    <version.nary>2.0.5</version.nary>
+    <version.java-spec>2.3</version.java-spec>
+  </properties>
+
+  <scm>
+    <url>https://github.com/10Pines/hermes</url>
+    <connection>scm:git:ssh://git@github.com/10Pines/hermes.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+  </scm>
+
+  <dependencies>
+
+    <dependency>
+      <!-- Necesario para la app web con spring boot -->
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Agrega utilidades para manejar colecciones -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${version.guava}</version>
+    </dependency>
+
+    <!-- Permite testear la aplicacion spring-boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Agrega la posibilidad de modelar incertidumbre con 0,1 o N elementos -->
+    <dependency>
+      <groupId>ar.com.kfgodel</groupId>
+      <artifactId>nary</artifactId>
+      <version>${version.nary}</version>
+    </dependency>
+
+    <!-- Permite escribir tests a la Rspec -->
+    <dependency>
+      <groupId>ar.com.dgarcia</groupId>
+      <artifactId>java-spec</artifactId>
+      <version>${version.java-spec}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <!-- De donde se obtienen las dependencias -->
+  <repositories>
+    <repository>
+      <id>tenpines_repo</id>
+      <name>Repositorio 10pines</name>
+      <url>http://services.10pines.com:8081/artifactory/repo</url>
+      <snapshots>
+        <!-- Queremos que siempre busque snapshots nuevos -->
+        <updatePolicy>interval:5</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <!-- Repositorios en el que subimos nuestros jars y wars -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>artifactory_10pines</id>
+      <name>libs-snapshot-local</name>
+      <url>http://services.10pines.com:8081/artifactory/libs-snapshot-local</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <repository>
+      <id>artifactory_10pines</id>
+      <name>libs-release-local</name>
+      <url>http://services.10pines.com:8081/artifactory/libs-release-local</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+  </distributionManagement>
+
+
+</project>
