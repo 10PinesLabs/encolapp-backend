@@ -1,14 +1,12 @@
 package com.tenpines.encolapp;
 
-import ar.com.kfgodel.nary.api.Nary;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Date: 27/01/18 - 11:08
@@ -16,46 +14,40 @@ import java.util.stream.Collectors;
 @RestController
 public class EncolappController {
 
-  private Set<Speaker> speakers = Nary.of(
-    Speaker.create("Jorge"),
-    Speaker.create("Dario"),
-    Speaker.create("Gise")
-  ).collect(Collectors.toCollection(LinkedHashSet::new));
-
-  private Set<Speaker> presentes = Nary.of(
-    Speaker.create("Jorge"),
-    Speaker.create("Dario"),
-    Speaker.create("Gise")
-  ).collect(Collectors.toCollection(LinkedHashSet::new));
+  @Autowired
+  private Salon salon;
 
   @GetMapping("/presentes")
   public Set<Speaker> presentes() {
-    return speakers;
+    return salon.obtenerPresentes();
   }
 
   @PostMapping("/entrar")
   public void entrar(@RequestParam String nombreDeSpeaker) {
-    presentes.add(Speaker.create(nombreDeSpeaker));
+    salon.ingresar(obtenerSpeaker(nombreDeSpeaker));
   }
 
   @PostMapping("/salir")
   public void salir(@RequestParam String nombreDeSpeaker) {
-    presentes.remove(Speaker.create(nombreDeSpeaker));
-    desencolarse(nombreDeSpeaker);
+    salon.salir(obtenerSpeaker(nombreDeSpeaker));
+  }
+
+  private Speaker obtenerSpeaker(@RequestParam String nombreDeSpeaker) {
+    return Speaker.create(nombreDeSpeaker);
   }
 
   @GetMapping("/cola")
   public Set<Speaker> cola() {
-    return speakers;
+    return salon.obtenerCola();
   }
 
   @PostMapping("/encolarse")
   public void encolarse(@RequestParam String nombreDeSpeaker) {
-    speakers.add(Speaker.create(nombreDeSpeaker));
+    salon.encolar(obtenerSpeaker(nombreDeSpeaker));
   }
 
   @PostMapping("/desencolarse")
   public void desencolarse(@RequestParam String nombreDeSpeaker) {
-    speakers.remove(Speaker.create(nombreDeSpeaker));
+    salon.desencolar(obtenerSpeaker(nombreDeSpeaker));
   }
 }
