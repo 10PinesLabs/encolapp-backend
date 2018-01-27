@@ -1,6 +1,8 @@
 package com.tenpines.encolapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
 import java.time.Duration;
 
 /**
@@ -35,12 +38,12 @@ public class EncolappController {
   }
 
   @PostMapping("/entrar")
-  public void entrar(@RequestBody Speaker speaker) {
+  public void entrar(@Valid @RequestBody Speaker speaker) {
     salon.ingresar(speaker);
   }
 
   @PostMapping("/salir")
-  public void salir(@RequestBody Speaker speaker) {
+  public void salir(@Valid @RequestBody Speaker speaker) {
     salon.salir(speaker);
   }
 
@@ -50,12 +53,19 @@ public class EncolappController {
   }
 
   @PostMapping("/encolarse")
-  public void encolarse(@RequestBody Speaker speaker) {
+  public void encolarse(@Valid @RequestBody Speaker speaker) {
     salon.encolar(speaker);
   }
 
   @PostMapping("/desencolarse")
-  public void desencolarse(@RequestBody Speaker speaker) {
+  public void desencolarse(@Valid @RequestBody Speaker speaker) {
     salon.desencolar(speaker);
+  }
+
+  @MessageMapping("/hello")
+  @SendTo("/topic/greetings")
+  public Greeting greeting(HelloMessage message) throws Exception {
+    Thread.sleep(1000); // simulated delay
+    return new Greeting("Hello, " + message.getName() + "!");
   }
 }

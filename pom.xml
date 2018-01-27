@@ -31,7 +31,13 @@
 
   <dependencies>
 
+    <!-- Agrega websockets -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
 
+    <!-- Permite integrar con componentes reactive -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webflux</artifactId>

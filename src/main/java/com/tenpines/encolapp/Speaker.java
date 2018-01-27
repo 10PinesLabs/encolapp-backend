@@ -1,9 +1,13 @@
 package com.tenpines.encolapp;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * Date: 27/01/18 - 11:22
  */
 public class Speaker {
+
+  @NotBlank(message = "Te falta el nombre, che!")
   private String nombre;
 
   public String getNombre() {
