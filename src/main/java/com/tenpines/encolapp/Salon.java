@@ -1,5 +1,6 @@
 package com.tenpines.encolapp;
 
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
@@ -16,13 +17,14 @@ public class Salon implements Consumer<FluxSink<EstadoDeSalon>> {
 
   private Set<Speaker> speakers;
   private Flux<EstadoDeSalon> novedades;
-  private FluxSink<EstadoDeSalon> sink;
+  private Optional<FluxSink<EstadoDeSalon>> sink;
 
   public static Salon create() {
     Salon salon = new Salon();
     salon.speakers = new CopyOnWriteArraySet<>();
     salon.presentes = new CopyOnWriteArraySet<>();
     salon.novedades = Flux.create(salon);
+    salon.sink = Optional.empty();
     return salon;
   }
 
@@ -56,7 +58,7 @@ public class Salon implements Consumer<FluxSink<EstadoDeSalon>> {
   }
 
   private void actualizarNovedades() {
-    sink.next(estadoActual());
+    sink.ifPresent(elSinko -> elSinko.next(estadoActual()));
   }
 
   public Flux<EstadoDeSalon> cambiosDeEstado() {
@@ -69,6 +71,6 @@ public class Salon implements Consumer<FluxSink<EstadoDeSalon>> {
 
   @Override
   public void accept(FluxSink<EstadoDeSalon> tFluxSink) {
-    this.sink = tFluxSink;
+    this.sink = Optional.of(tFluxSink);
   }
 }
