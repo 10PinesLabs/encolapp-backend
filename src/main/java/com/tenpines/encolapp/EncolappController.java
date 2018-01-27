@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 /**
  * Date: 27/01/18 - 11:08
  */
@@ -19,7 +21,8 @@ public class EncolappController {
 
   @GetMapping("/estado_actual")
   public Mono<EstadoDeSalon> estadoActual() {
-    return salon.obtenerEstado();
+    Flux<EstadoDeSalon> timeout = Mono.delay(Duration.ofSeconds(20)).map((longo) -> salon.estadoActual()).flux();
+    return salon.cambiosDeEstado().mergeWith(timeout).next();
   }
 
   @GetMapping("/presentes")
