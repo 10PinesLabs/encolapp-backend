@@ -8,20 +8,15 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.0.M7</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
-
   <properties>
     <java.version>1.8</java.version>
 
     <version.guava>23.5-jre</version.guava>
     <version.nary>2.0.5</version.nary>
-    <version.java-spec>2.3</version.java-spec>
     <version.vertx>3.5.0</version.vertx>
+    <version.slf4j>1.7.6</version.slf4j>
+    <version.logback>1.1.1</version.logback>
+
   </properties>
 
   <scm>
@@ -47,30 +42,11 @@
       <version>${version.vertx}</version>
     </dependency>
 
-    <!-- Permite integrar con componentes reactive -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-webflux</artifactId>
-    </dependency>
-
     <!-- Agrega utilidades para manejar colecciones -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${version.guava}</version>
-    </dependency>
-
-    <!-- Permite testear la aplicacion spring-boot -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.projectreactor</groupId>
-      <artifactId>reactor-test</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <!-- Agrega la posibilidad de modelar incertidumbre con 0,1 o N elementos -->
@@ -80,23 +56,36 @@
       <version>${version.nary}</version>
     </dependency>
 
-    <!-- Permite escribir tests a la Rspec -->
+
+    <!-- logueo -->
     <dependency>
-      <groupId>ar.com.dgarcia</groupId>
-      <artifactId>java-spec</artifactId>
-      <version>${version.java-spec}</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${version.logback}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${version.logback}</version>
     </dependency>
 
   </dependencies>
 
   <build>
     <plugins>
-
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
       </plugin>
-
     </plugins>
   </build>
 
