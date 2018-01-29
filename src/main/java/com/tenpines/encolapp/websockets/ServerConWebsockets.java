@@ -1,7 +1,6 @@
 package com.tenpines.encolapp.websockets;
 
-import com.tenpines.encolapp.websockets.ejemplo.AuctionMessageHandler;
-import com.tenpines.encolapp.websockets.ejemplo.LogicaDelRemate;
+import com.tenpines.encolapp.modelo.Salon;
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.ext.bridge.PermittedOptions;
@@ -20,10 +19,12 @@ public class ServerConWebsockets {
   public static Logger LOG = LoggerFactory.getLogger(ServerConWebsockets.class);
 
   private Vertx vertx;
+  private Salon salon;
 
   public static ServerConWebsockets create() {
     ServerConWebsockets ejemplo = new ServerConWebsockets();
     ejemplo.vertx = Vertx.vertx();
+    ejemplo.salon = Salon.create(ejemplo.vertx.eventBus());
     return ejemplo;
   }
 
@@ -33,9 +34,7 @@ public class ServerConWebsockets {
   }
 
   private void registrarHandlerDeMensajesEnElBus() {
-    LogicaDelRemate logicaDelRemate = LogicaDelRemate.create(vertx.eventBus());
-
-    AuctionMessageHandler messageHandler = AuctionMessageHandler.create(logicaDelRemate);
+    HandlerDeMensajes messageHandler = HandlerDeMensajes.create(salon);
     messageHandler.registrarEn(vertx.eventBus());
   }
 
@@ -54,7 +53,7 @@ public class ServerConWebsockets {
     return SockJSHandler.create(vertx)
       .bridge(options, event -> {
         if (event.type() == BridgeEventType.SOCKET_CREATED) {
-          LOG.info("A socket was created");
+          LOG.info("Alguien se conecto: {}", event.socket().remoteAddress());
         }
         event.complete(true);
       });

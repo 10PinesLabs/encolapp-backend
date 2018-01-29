@@ -1,4 +1,4 @@
-package com.tenpines.encolapp;
+package com.tenpines.encolapp.modelo;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

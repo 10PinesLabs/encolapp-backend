@@ -1,4 +1,4 @@
-package com.tenpines.encolapp;
+package com.tenpines.encolapp.modelo;
 
 import ar.com.kfgodel.nary.api.optionals.Optional;
 import io.vertx.core.eventbus.EventBus;
