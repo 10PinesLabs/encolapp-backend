@@ -37,15 +37,6 @@
   <!-- Queremos debug del setup de la app -->
   <logger name="com.tenpines.encolapp" level="DEBUG"/>
 
-  <!-- Permite loguear los requests recibidos -->
-  <logger name="com.interbanking.hermes.integration.http.RequestLoggerFilter" level="DEBUG"/>
-
-  <!-- Excluir detalle de cada vez que se corre -->
-  <logger name="com.interbanking.hermes.integration.jobs.EmitirNotificacionesJob" level="INFO"/>
-
-  <!-- Ignorar logueo interno cuando no encuentra token y es un caso normal la primera vez -->
-  <logger name="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore" level="WARN"/>
-
   <!--<logger name="org.apache" level="INFO"/>-->
   <!--<logger name="org.springframework" level="INFO"/>-->
   <!--<logger name="org.springframework.security" level="WARN"/>-->
@@ -99,7 +90,7 @@
   <!-- 		<level value="trace"/>  -->
   <!-- 	</logger> -->
 
-  <root level="debug">
+  <root level="INFO">
     <!-- En producción no excribimos en el out -->
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="ROLLING_FILE"/>

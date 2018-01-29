@@ -75,6 +75,7 @@ public class ServerConWebsockets {
     Integer puerto = Optional.ofNullable(System.getenv("PORT"))
       .mapNary(Integer::parseInt)
       .orElse(8080);
+    LOG.info("Iniciando server con websockets");
     Router router = crearRouterParaWebsockets();
     vertx.createHttpServer()
       .requestHandler(router::accept)
