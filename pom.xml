@@ -21,6 +21,7 @@
     <version.guava>23.5-jre</version.guava>
     <version.nary>2.0.5</version.nary>
     <version.java-spec>2.3</version.java-spec>
+    <version.vertx>3.5.0</version.vertx>
   </properties>
 
   <scm>
@@ -30,6 +31,21 @@
   </scm>
 
   <dependencies>
+
+
+    <!-- Agregamos el core de vertx -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${version.vertx}</version>
+    </dependency>
+
+    <!-- Permite server http con web sockets -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+      <version>${version.vertx}</version>
+    </dependency>
 
     <!-- Permite integrar con componentes reactive -->
     <dependency>
