@@ -1,5 +1,6 @@
 package com.tenpines.encolapp.websockets;
 
+import ar.com.kfgodel.nary.api.optionals.Optional;
 import com.tenpines.encolapp.modelo.Salon;
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.BridgeEventType;
@@ -40,6 +41,8 @@ public class ServerConWebsockets {
 
   private Router crearRouterParaWebsockets() {
     Router router = Router.router(vertx);
+
+
     router.route("/eventbus/*").handler(eventBusHandler());
     router.route().failureHandler(errorHandler());
     router.route().handler(staticHandler());
@@ -69,10 +72,13 @@ public class ServerConWebsockets {
   }
 
   private void iniciarServerHttpConWebSockets() {
+    Integer puerto = Optional.ofNullable(System.getenv("PORT"))
+      .mapNary(Integer::parseInt)
+      .orElse(8080);
     Router router = crearRouterParaWebsockets();
     vertx.createHttpServer()
       .requestHandler(router::accept)
-      .listen(8080);
+      .listen(puerto);
   }
 
 }
