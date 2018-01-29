@@ -1,6 +1,8 @@
 package com.tenpines.encolapp;
 
 import ar.com.kfgodel.nary.api.optionals.Optional;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.Json;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
@@ -19,12 +21,15 @@ public class Salon implements Consumer<FluxSink<EstadoDeSalon>> {
   private Flux<EstadoDeSalon> novedades;
   private Optional<FluxSink<EstadoDeSalon>> sink;
 
-  public static Salon create() {
+  private EventBus eventBus;
+
+  public static Salon create(EventBus eventBus) {
     Salon salon = new Salon();
     salon.speakers = new CopyOnWriteArraySet<>();
     salon.presentes = new CopyOnWriteArraySet<>();
     salon.novedades = Flux.create(salon);
     salon.sink = Optional.empty();
+    salon.eventBus = eventBus;
     return salon;
   }
 
@@ -58,7 +63,9 @@ public class Salon implements Consumer<FluxSink<EstadoDeSalon>> {
   }
 
   private void actualizarNovedades() {
-    sink.ifPresent(elSinko -> elSinko.next(estadoActual()));
+    EstadoDeSalon nuevoEstado = estadoActual();
+    eventBus.publish("roots.salon.cambio", Json.encode(nuevoEstado));
+    sink.ifPresent(elSinko -> elSinko.next(nuevoEstado));
   }
 
   public Flux<EstadoDeSalon> cambiosDeEstado() {

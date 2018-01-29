@@ -1,5 +1,7 @@
 package com.tenpines.encolapp.websockets.ejemplo;
 
+import com.tenpines.encolapp.Salon;
+import com.tenpines.encolapp.Speaker;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.Json;
@@ -13,6 +15,7 @@ public class AuctionMessageHandler {
   public static Logger LOG = LoggerFactory.getLogger(AuctionMessageHandler.class);
 
   private LogicaDelRemate logica;
+  private Salon salon;
 
   public static AuctionMessageHandler create(LogicaDelRemate logica) {
     AuctionMessageHandler handler = new AuctionMessageHandler();
@@ -21,8 +24,25 @@ public class AuctionMessageHandler {
   }
 
   public void registrarEn(EventBus eventBus) {
+    this.salon = Salon.create(eventBus);
+    eventBus.consumer("roots.salon.encolar", this::onSpeakerEncolado);
+    eventBus.consumer("roots.salon.desencolar", this::onSpeakerDesencolado);
     eventBus.consumer("auction.price", this::onConsultaDeRemate);
     eventBus.consumer("auction.bid", this::onOfertaDeRemate);
+  }
+
+  private void onSpeakerEncolado(Message<String> message) {
+    String body = message.body();
+    LOG.info("Speaker para encolar: {}", body);
+    Speaker speaker = Json.decodeValue(body, Speaker.class);
+    salon.encolar(speaker);
+  }
+
+  private void onSpeakerDesencolado(Message<String> message) {
+    String body = message.body();
+    LOG.info("Speaker para des-encolar: {}", body);
+    Speaker speaker = Json.decodeValue(body, Speaker.class);
+    salon.desencolar(speaker);
   }
 
   private void onOfertaDeRemate(Message<String> message) {

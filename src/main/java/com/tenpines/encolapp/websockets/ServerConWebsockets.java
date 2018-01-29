@@ -49,8 +49,8 @@ public class ServerConWebsockets {
 
   private SockJSHandler eventBusHandler() {
     BridgeOptions options = new BridgeOptions()
-      .addOutboundPermitted(new PermittedOptions().setAddressRegex("auction.+"))
-      .addInboundPermitted(new PermittedOptions().setAddressRegex("auction.+"));
+      .addOutboundPermitted(new PermittedOptions().setAddressRegex(".*"))
+      .addInboundPermitted(new PermittedOptions().setAddressRegex(".*"));
     return SockJSHandler.create(vertx)
       .bridge(options, event -> {
         if (event.type() == BridgeEventType.SOCKET_CREATED) {

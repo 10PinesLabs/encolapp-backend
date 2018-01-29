@@ -14,7 +14,7 @@ public class ConfiguracionDeSpring {
 
   @Bean
   public Salon salon() {
-    return Salon.create();
+    return Salon.create(null);
   }
 
 
