@@ -97,6 +97,11 @@
   <!-- De donde se obtienen las dependencias -->
   <repositories>
     <repository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </repository>
+    <repository>
       <id>tenpines_repo</id>
       <name>Repositorio 10pines</name>
       <url>http://services.10pines.com:8081/artifactory/repo</url>
@@ -124,6 +129,11 @@
   </repositories>
 
   <pluginRepositories>
+    <pluginRepository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </pluginRepository>
     <pluginRepository>
       <id>tenpines_repo</id>
       <name>Repositorio 10pines</name>
