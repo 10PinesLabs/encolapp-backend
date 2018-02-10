@@ -90,7 +90,7 @@
   <!-- 		<level value="trace"/>  -->
   <!-- 	</logger> -->
 
-  <root level="INFO">
+  <root level="DEBUG">
     <!-- En producción no excribimos en el out -->
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="ROLLING_FILE"/>
