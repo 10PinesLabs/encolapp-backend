@@ -1,7 +1,7 @@
 package com.tenpines.encolapp.websockets;
 
 import ar.com.kfgodel.nary.api.optionals.Optional;
-import com.tenpines.encolapp.modelo.Salon;
+import com.tenpines.encolapp.modelo.Sala;
 import io.vertx.core.Vertx;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.ext.bridge.PermittedOptions;
@@ -20,12 +20,12 @@ public class ServerConWebsockets {
   public static Logger LOG = LoggerFactory.getLogger(ServerConWebsockets.class);
 
   private Vertx vertx;
-  private Salon salon;
+  private Sala sala;
 
   public static ServerConWebsockets create() {
     ServerConWebsockets ejemplo = new ServerConWebsockets();
     ejemplo.vertx = Vertx.vertx();
-    ejemplo.salon = Salon.create(ejemplo.vertx.eventBus());
+    ejemplo.sala = Sala.create(ejemplo.vertx.eventBus());
     return ejemplo;
   }
 
@@ -35,7 +35,7 @@ public class ServerConWebsockets {
   }
 
   private void registrarHandlerDeMensajesEnElBus() {
-    HandlerDeMensajes messageHandler = HandlerDeMensajes.create(salon);
+    HandlerDeMensajes messageHandler = HandlerDeMensajes.create(sala);
     messageHandler.registrarEn(vertx.eventBus());
   }
 

@@ -6,16 +6,16 @@ import java.util.Set;
 /**
  * Date: 27/01/18 - 15:25
  */
-public class EstadoDeSalon {
+public class EstadoDeSala {
 
   private Set<Speaker> presentes;
   private Set<Speaker> cola;
 
-  public static EstadoDeSalon create(Set<Speaker> presentes, Set<Speaker> speakers) {
-    EstadoDeSalon estadoDeSalon = new EstadoDeSalon();
-    estadoDeSalon.presentes = new LinkedHashSet<>(presentes);
-    estadoDeSalon.cola = new LinkedHashSet<>(speakers);
-    return estadoDeSalon;
+  public static EstadoDeSala create(Set<Speaker> presentes, Set<Speaker> speakers) {
+    EstadoDeSala estadoDeSala = new EstadoDeSala();
+    estadoDeSala.presentes = new LinkedHashSet<>(presentes);
+    estadoDeSala.cola = new LinkedHashSet<>(speakers);
+    return estadoDeSala;
   }
 
   public Set<Speaker> getPresentes() {

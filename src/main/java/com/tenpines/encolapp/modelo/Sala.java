@@ -1,5 +1,6 @@
 package com.tenpines.encolapp.modelo;
 
+import com.tenpines.encolapp.websockets.Mensajes;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.Json;
 
@@ -9,19 +10,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * Date: 27/01/18 - 13:16
  */
-public class Salon {
+public class Sala {
 
   private Set<Speaker> presentes;
 
   private Set<Speaker> speakers;
   private EventBus eventBus;
 
-  public static Salon create(EventBus eventBus) {
-    Salon salon = new Salon();
-    salon.speakers = new CopyOnWriteArraySet<>();
-    salon.presentes = new CopyOnWriteArraySet<>();
-    salon.eventBus = eventBus;
-    return salon;
+  public static Sala create(EventBus eventBus) {
+    Sala sala = new Sala();
+    sala.speakers = new CopyOnWriteArraySet<>();
+    sala.presentes = new CopyOnWriteArraySet<>();
+    sala.eventBus = eventBus;
+    return sala;
   }
 
   public void ingresar(Speaker speaker) {
@@ -46,12 +47,12 @@ public class Salon {
   }
 
   private void actualizarNovedades() {
-    EstadoDeSalon nuevoEstado = estadoActual();
-    eventBus.publish("roots.salon.cambio", Json.encode(nuevoEstado));
+    EstadoDeSala nuevoEstado = estadoActual();
+    eventBus.publish(Mensajes.CAMBIOS_EN_SALA, Json.encode(nuevoEstado));
   }
 
-  private EstadoDeSalon estadoActual() {
-    return EstadoDeSalon.create(presentes, speakers);
+  private EstadoDeSala estadoActual() {
+    return EstadoDeSala.create(presentes, speakers);
   }
 
 }
