@@ -57,9 +57,9 @@ public class Sala {
     return EstadoDeSala.create(presentes, speakers);
   }
 
-  public void queRedondee(Speaker speaker) {
-    Optional<Speaker> speaking = speakers.stream().filter(s -> s.equals(speaker)).findFirst();
-    speaking.ifPresent(s -> s.redondear());
+  public void redondeo(Pedido pedido) {
+    Optional<Speaker> denso = speakers.stream().filter(s -> s.equals(pedido.getDestinatario())).findFirst();
+    denso.ifPresent(s -> s.redondear(pedido.getOrigen()));
     this.actualizarNovedades();
   }
 }

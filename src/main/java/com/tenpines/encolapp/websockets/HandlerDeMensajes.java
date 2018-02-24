@@ -1,5 +1,6 @@
 package com.tenpines.encolapp.websockets;
 
+import com.tenpines.encolapp.modelo.Pedido;
 import com.tenpines.encolapp.modelo.Sala;
 import com.tenpines.encolapp.modelo.Speaker;
 import io.vertx.core.eventbus.EventBus;
@@ -31,34 +32,39 @@ public class HandlerDeMensajes {
   }
 
   private void onSpeakerEntrando(Message<String> message) {
-    Speaker speaker = parsearConMensaje("Speaker para entrar: {}", message);
+    Speaker speaker = parsearSpeaker("Speaker para entrar: {}", message);
     sala.ingresar(speaker);
   }
 
   private void onSpeakerSaliendo(Message<String> message) {
-    Speaker speaker = parsearConMensaje("Speaker para salir: {}", message);
+    Speaker speaker = parsearSpeaker("Speaker para salir: {}", message);
     sala.salir(speaker);
   }
 
   private void onSpeakerEncolado(Message<String> message) {
-    Speaker speaker = parsearConMensaje("Speaker para encolar: {}", message);
+    Speaker speaker = parsearSpeaker("Speaker para encolar: {}", message);
     sala.encolar(speaker);
   }
 
   private void onSpeakerDesencolado(Message<String> message) {
-    Speaker speaker = parsearConMensaje("Speaker para des-encolar: {}", message);
+    Speaker speaker = parsearSpeaker("Speaker para des-encolar: {}", message);
     sala.desencolar(speaker);
   }
 
   private void onSpeakerRedondee(Message<String> message) {
-    Speaker speaker = parsearConMensaje("Speaker para que redondee: {}", message);
-    sala.queRedondee(speaker);
+    Pedido pedido = parsear(Pedido.class,"Speaker para que redondee: {}", message);
+    sala.redondeo(pedido);
   }
 
-  private Speaker parsearConMensaje(String mensaje, Message<String> message) {
+
+  private Speaker parsearSpeaker(String mensaje, Message<String> message) {
+    return this.parsear(Speaker.class, mensaje, message);
+  }
+
+  private <T> T parsear(Class<T> clazz, String mensaje, Message<String> message) {
     String body = message.body();
     LOG.info(mensaje, body);
-    return Json.decodeValue(body, Speaker.class);
+    return Json.decodeValue(body, clazz);
   }
 
 

@@ -1,16 +1,35 @@
 package com.tenpines.encolapp.modelo;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Date: 27/01/18 - 11:22
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Speaker {
 
   private String nombre;
-  private int pedidosRedondeo = 0;
+  private Set<Speaker> pidieronRedondeo;
+
+  public Speaker(){
+    pidieronRedondeo = new HashSet<>();
+  }
+
+  public Speaker(String nombre){
+    this();
+    this.setNombre(nombre);
+  }
+
+  public static Speaker create(String nombre) {
+    return new Speaker(nombre);
+  }
 
   public int getPedidosRedondeo() {
-    return pedidosRedondeo;
+    return pidieronRedondeo.size();
   }
 
   public String getNombre() {
@@ -19,12 +38,6 @@ public class Speaker {
 
   public void setNombre(String nombre) {
     this.nombre = nombre;
-  }
-
-  public static Speaker create(String nombre) {
-    Speaker speaker = new Speaker();
-    speaker.setNombre(nombre);
-    return speaker;
   }
 
   @Override
@@ -43,10 +56,10 @@ public class Speaker {
   }
 
   public void terminar() {
-    this.pedidosRedondeo = 0;
+    this.pidieronRedondeo = new HashSet<>();
   }
 
-  public void redondear() {
-    this.pedidosRedondeo += 1;
+  public void redondear(Speaker ortiba) {
+    this.pidieronRedondeo.add(ortiba);
   }
 }
