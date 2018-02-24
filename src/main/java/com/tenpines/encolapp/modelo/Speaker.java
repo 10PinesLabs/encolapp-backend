@@ -7,6 +7,11 @@ package com.tenpines.encolapp.modelo;
 public class Speaker {
 
   private String nombre;
+  private int pedidosRedondeo = 0;
+
+  public int getPedidosRedondeo() {
+    return pedidosRedondeo;
+  }
 
   public String getNombre() {
     return nombre;
@@ -35,5 +40,13 @@ public class Speaker {
   @Override
   public int hashCode() {
     return nombre.hashCode();
+  }
+
+  public void terminar() {
+    this.pedidosRedondeo = 0;
+  }
+
+  public void redondear() {
+    this.pedidosRedondeo += 1;
   }
 }

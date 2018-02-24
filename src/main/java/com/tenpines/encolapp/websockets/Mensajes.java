@@ -10,5 +10,6 @@ public class Mensajes {
   public static final String SALIR_DE_SALA = "sala.roots.salir";
   public static final String ENCOLAR = "sala.roots.encolar";
   public static final String DESENCOLAR = "sala.roots.desencolar";
+  public static final String REDONDEAR = "sala.roots.redondear";
 
 }

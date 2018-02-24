@@ -27,6 +27,7 @@ public class HandlerDeMensajes {
     eventBus.consumer(Mensajes.SALIR_DE_SALA, this::onSpeakerSaliendo);
     eventBus.consumer(Mensajes.ENCOLAR, this::onSpeakerEncolado);
     eventBus.consumer(Mensajes.DESENCOLAR, this::onSpeakerDesencolado);
+    eventBus.consumer(Mensajes.REDONDEAR, this::onSpeakerRedondee);
   }
 
   private void onSpeakerEntrando(Message<String> message) {
@@ -47,6 +48,11 @@ public class HandlerDeMensajes {
   private void onSpeakerDesencolado(Message<String> message) {
     Speaker speaker = parsearConMensaje("Speaker para des-encolar: {}", message);
     sala.desencolar(speaker);
+  }
+
+  private void onSpeakerRedondee(Message<String> message) {
+    Speaker speaker = parsearConMensaje("Speaker para que redondee: {}", message);
+    sala.queRedondee(speaker);
   }
 
   private Speaker parsearConMensaje(String mensaje, Message<String> message) {

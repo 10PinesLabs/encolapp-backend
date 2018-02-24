@@ -4,6 +4,7 @@ import com.tenpines.encolapp.websockets.Mensajes;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.Json;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -43,6 +44,7 @@ public class Sala {
 
   public void desencolar(Speaker speaker) {
     speakers.remove(speaker);
+    speaker.terminar();
     actualizarNovedades();
   }
 
@@ -55,4 +57,9 @@ public class Sala {
     return EstadoDeSala.create(presentes, speakers);
   }
 
+  public void queRedondee(Speaker speaker) {
+    Optional<Speaker> speaking = speakers.stream().filter(s -> s.equals(speaker)).findFirst();
+    speaking.ifPresent(s -> s.redondear());
+    this.actualizarNovedades();
+  }
 }
